@@ -22,13 +22,16 @@ typedef struct no
 
 Hospede *inicializarHospede(
     char nome[30],
-    int pesoEntrada)
+    bool alta,
+    int pesoEntrada,
+    int qtdDiasTratamento)
 {
   Hospede *hospede = (Hospede *)malloc(sizeof(Hospede));
   hospede->id = 0;
   strcpy(hospede->nome, nome);
   hospede->pesoEntrada = pesoEntrada;
-  hospede->alta = false;
+  hospede->alta = alta;
+  hospede->qtdDiasTratamento = qtdDiasTratamento;
   return hospede;
 }
 
@@ -74,6 +77,19 @@ void imprimirNo(No *no)
   }
 }
 
+int obterTamanhoLista(No *lista)
+{
+  if (lista == NULL)
+    return 0;
+  int tamanho = 1;
+  No *atual = lista;
+  while (atual->proximo != NULL)
+  {
+    tamanho++;
+  }
+  return tamanho;
+}
+
 void liberarNo(No *no)
 {
   while (no->proximo != NULL)
@@ -85,17 +101,94 @@ void liberarNo(No *no)
   }
 }
 
+void cadastrarNovoHospede(No *lista)
+{
+  char nome[30];
+  int pesoEntrada, qtdDiasTratamento;
+  char altaInput;
+  bool alta;
+  printf("\nNome: ");
+  scanf("%s", &nome);
+
+  printf("\nPeso entrada: ");
+  scanf("%d", &pesoEntrada);
+
+  printf("\nRecebeu alta? (s/n): ");
+  scanf("%c", altaInput);
+  if (altaInput == 's')
+    alta = true;
+  else
+    alta = false;
+
+  printf("\nQuantos dias de tratamento?: ");
+  scanf("%d", &qtdDiasTratamento);
+
+  Hospede *hospede = inicializarHospede(nome, alta, pesoEntrada, qtdDiasTratamento);
+  if (obterTamanhoLista(lista) == 0)
+  {
+    lista = inicializarNo(hospede);
+  }
+  else
+  {
+    adicionarNo(lista, hospede);
+  }
+}
+
+void removerHospede(No *lista)
+{
+  int id;
+  printf("\nId da remocao: ");
+  scanf("%d", id);
+  No *atual = lista;
+  No *temp = atual;
+  while (atual != NULL)
+  {
+    if (atual->hospede->id == id)
+    {
+    }
+  }
+}
+
+void exibirHospede(No *lista)
+{
+}
+
+void menu(No *lista)
+{
+  int opcao;
+  printf("\n= Escolha uma acao = ");
+  printf(
+      "\n0 - Concluir",
+      "\n1 - Adicionar",
+      "\n2 - Dar baixa",
+      "\n3 - Exibir");
+  scanf("%d", &opcao);
+  if (opcao == 0)
+  {
+    printf("\n\tEncerrando operacao..");
+    return;
+  }
+  else if (opcao == 1)
+  {
+    cadastrarNovoHospede(lista);
+  }
+  else if (opcao == 2)
+  {
+    removerHospede(lista);
+  }
+  else if (opcao == 4)
+  {
+    exibirHospede(lista);
+  }
+
+  menu(lista);
+}
+
 int main()
 {
-  Hospede *h1 = inicializarHospede("brunello", 70000);
-  Hospede *h2 = inicializarHospede("bruno concli", 75000);
-  Hospede *h3 = inicializarHospede("maveco", 4);
+  No *lista = NULL;
+  menu(lista);
 
-  No *lista = inicializarNo(h1);
-  adicionarNo(lista, h2);
-  adicionarNo(lista, h3);
-
-  imprimirNo(lista);
   liberarNo(lista);
   return 0;
 }
