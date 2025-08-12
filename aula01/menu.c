@@ -107,12 +107,3 @@ void menu(No *lista)
 
   menu(lista);
 }
-
-int main()
-{
-  No *lista = NULL;
-  menu(lista);
-  if (lista != NULL) liberarNo(lista);
-  printf("\n\nPrograma finalizado.");
-  return 0;
-}
