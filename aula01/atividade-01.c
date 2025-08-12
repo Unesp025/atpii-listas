@@ -101,27 +101,44 @@ void liberarNo(No *no)
   }
 }
 
+void exibirMensagem(char *mensagem)
+{
+  printf("\e[1;1H\e[2J");
+  printf("\n%s", mensagem);
+  printf("\n\nPressione [ENTER] para continuar...\n");
+  getchar();
+  getchar();
+  printf("\e[1;1H\e[2J");
+}
+
 void cadastrarNovoHospede(No *lista)
 {
   char nome[30];
-  int pesoEntrada, qtdDiasTratamento;
-  char altaInput;
+  int pesoEntrada, qtdDiasTratamento = -1;
+  char altaBinario = -1;
   bool alta;
+  printf("\n= Cadastro de hospede =\n");
   printf("\nNome: ");
   scanf("%s", &nome);
 
   printf("\nPeso entrada: ");
   scanf("%d", &pesoEntrada);
 
-  printf("\nRecebeu alta? (s/n): ");
-  scanf("%c", altaInput);
-  if (altaInput == 's')
+  while (altaBinario >1 || altaBinario < 0)
+  {
+    printf("\nRecebeu alta? (1 - sim / 0 - nao): ");
+    scanf("%d", &altaBinario);
+  }
+  if (altaBinario == 1)
     alta = true;
   else
     alta = false;
 
-  printf("\nQuantos dias de tratamento?: ");
-  scanf("%d", &qtdDiasTratamento);
+  while (qtdDiasTratamento>20 || qtdDiasTratamento < 1)
+  {
+    printf("\nQuantos dias de tratamento?: ");
+    scanf("%d", &qtdDiasTratamento);
+  }
 
   Hospede *hospede = inicializarHospede(nome, alta, pesoEntrada, qtdDiasTratamento);
   if (obterTamanhoLista(lista) == 0)
@@ -132,6 +149,7 @@ void cadastrarNovoHospede(No *lista)
   {
     adicionarNo(lista, hospede);
   }
+  exibirMensagem("Hospede adicionado com sucesso!");
 }
 
 void removerHospede(No *lista)
@@ -151,18 +169,23 @@ void removerHospede(No *lista)
 
 void exibirHospede(No *lista)
 {
+  printf("\n= Lista de hospedes =\n\n");
+  imprimirNo(lista);
+  exibirMensagem("");
 }
 
 void menu(No *lista)
 {
+  printf("\e[1;1H\e[2J");
   int opcao;
   printf("\n= Escolha uma acao = ");
   printf(
-      "\n0 - Concluir",
-      "\n1 - Adicionar",
-      "\n2 - Dar baixa",
-      "\n3 - Exibir");
+      "\n0 - Concluir"
+      "\n1 - Adicionar"
+      "\n2 - Dar baixa"
+      "\n3 - Exibir\n\n");
   scanf("%d", &opcao);
+  printf("\e[1;1H\e[2J");
   if (opcao == 0)
   {
     printf("\n\tEncerrando operacao..");
@@ -176,7 +199,7 @@ void menu(No *lista)
   {
     removerHospede(lista);
   }
-  else if (opcao == 4)
+  else if (opcao == 3)
   {
     exibirHospede(lista);
   }
@@ -188,7 +211,7 @@ int main()
 {
   No *lista = NULL;
   menu(lista);
-
-  liberarNo(lista);
+  if (lista != NULL) liberarNo(lista);
+  printf("\n\nPrograma finalizado.");
   return 0;
 }
