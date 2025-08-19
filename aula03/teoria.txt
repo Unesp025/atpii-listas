@@ -1,0 +1,107 @@
+MALTEMPI
+Nosso foco não é aprender a linguagem C. 
+É aprender os fundamentos, C virá como consequência. 
+
+SOBRE AS PROVAS
+* A prova é individual com consulta a livros. 
+* Faremos nos blocos didáticos. 
+* Há questões de implementação em C. 
+	- Não tem muito rigor de sintaxe. 
+	- Normalmente, pede-se uma função.
+	- Não é pra ter include, variável ou funções globais 
+	nem main.
+
+CONCEITOS DE ARQUIVOS EM C
+
+Arquivos Binários
+* dados em formato bruto
+* armazenam qualquer tipo de dado.
+* não legíveis
+* forma compacta e eficiente de armazenamento. 
+
+Acesso sequencial 
+* Dados são lidos ou escritos em ordem. 
+
+Acesso aleatório
+* Consegue acessar qualquer posição do arquivo. 
+* Costuma ser mais eficiente em arquivos bináiros.
+* Em arquivos de texto, pode ser necessário ler o arquivo 
+parcialmente para poder encontrar a posição correta. 
+
+Portabilidde
+* Arquivos de texto são mais portáveis em diferntes sistemas. 
+* Os binários podem apresentar problmeas devido a difereteças de estruturas de baixo nível. 
+
+Tamanho de registros
+* Arquivos binários têm tamanho fixo, o que facilita o acesso aleatório.
+* Texto pode variar o qe dificulta o acesso. 
+
+Uso do Buffer
+* O acesso ao disco é muito mais lento que o acesso ao buffer.
+* Acesso sequeuncial tem maior benefíco com o buffer. 
+* O acesso aleatório pode reduzir a eficácia do buffer.
+
+Integridade dos dados
+* Corrupção (algum tipo de problmea nos dados) pode ser mais problemáticas em arquivos binários do que de texo. 
+* Arquivos de texto são mais fáceis de inspecionar e corrigir manualemte. 
+
+3. OPERAÇÕES COM ARQUIVOS EM C
+Arquivos estão no disco. É possível Criar, Ler, alterar ou apagar dados.
+Primeiro, é necessário abrir o arquivo. 
+
+```
+#include<stdio.h>
+
+FILE* arquivo; 
+arquivo = fopen("caminho.txt", "r");
+if (arquivo == NULL) return NULL;
+// ... 
+fclose(arquivo);
+```
+
+Qualquer memória não tem uma borrcha. Sempre que algo é armazenado, uma posição de memória é associada. Em uma nova alocação, é provável que outros valores já houvessem sido armazenados anteriormente. Para trabalhar com esse valor, é necessário INICIALIZAR uma variável que já foi DECLARADA.
+
+TIPOS DE ABERTURA
+
+r	Leitura
+w	Escrita
+a 	Append (anexar ao fim)
+r+	Leitura e escrita
+b	Modo binário
+
+LEITURA DE ARQUIVOS
+
+```
+int c = fgetc(arquivo);
+char str[100];
+if (fgets(str, 100, arquivo) != NULL) printf("%s", str[i])
+```
+
+POSICIONAMENTO NO ARQUIVO
+```
+// Move o cursor para o início do arquivo
+rewind(arquivo);
+
+// Move para uma pos específica
+fseek(arquivo, 10, SEEK_SET); // 10 bytes do início
+```
+
+4. MANIPULAÇÃO DE DADOS EM ARQUIVOS 
+
+```
+typedef struct 
+{
+	char nome[50];
+	int idade;
+} Pessoa;
+
+Pessoa p = {"jou", 20};
+// correção pelo nello
+```
+
+DICAS
+1. Sempre verifique se a operação de abertura deu certo (não é NULL)
+2. Fhce todos os arquivos após o uso para liberer recursos do sistema
+3. fflush() força a escrita dos dados no buffer para o arquivo 
+4. fread() e fwrite() servem para ler e escrevr em arquivos, respectivamente.
+
