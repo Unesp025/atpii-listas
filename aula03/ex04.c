@@ -18,5 +18,7 @@ int main (int argc, char *argv[])
     {
         fputs(linha, saida);
     }
+    fclose(entrada);
+    fclose(saida);
     return 0;
 }
