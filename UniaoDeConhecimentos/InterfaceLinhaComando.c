@@ -1,14 +1,5 @@
 #include "ListaEncadeadaHospede.c"
 
-typedef void (*OperacaoGestaoHospede)(No *no);
-
-typedef struct
-{
-    char titulo[50];
-    char descricao[256];
-    OperacaoGestaoHospede operacao;
-} Opcao;
-
 No *cadastrarHospede(No *no)
 {
     char nome[50];
@@ -74,6 +65,30 @@ No *cadastrarHospede(No *no)
     }
 }
 
+void darAltaEmHospedePorId(No *no)
+{
+    int id;
+    printf("Informe o ID do hospede que deseja dar alta (0 para cancelar): ");
+    scanf("%d", id);
+    if (id != 0)
+    {
+        No *atual = no;
+        while (atual->proximo != NULL)
+        {
+            if (atual->id == id)
+            {
+                int pesoEmGramasAoSair;
+                atual->hospede->alta = true;
+                printf("Informe o peso de saida (gramas): ");
+                scanf("%d", pesoEmGramasAoSair);
+                atual->hospede->pesoEmGramasAoSair = pesoEmGramasAoSair;
+                // return no;
+            }
+            atual = atual->proximo;
+        }
+    }
+}
+
 void menu(No *no)
 {
     system("cls");
@@ -92,6 +107,8 @@ void menu(No *no)
     system("cls");
     if (opcao == 1)
         no = cadastrarHospede(no);
+    if (opcao == 2)
+        darAltaEmHospedePorId(no);
     else if (opcao == 3)
         noImprimir(no);
     printf("\n\nPressione [ENTER] para prosseguir");

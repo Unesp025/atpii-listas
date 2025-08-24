@@ -7,6 +7,7 @@ typedef struct
 {
     char nome[50];
     int pesoEmGramasAoEntrar;
+    int pesoEmGramasAoSair;
     int qtdeDiasTratamento;
     int *listaQtdeCaloriasIngeridasPorDia;
     bool alta;
@@ -26,6 +27,7 @@ Hospede *hospedeInicializar(
     novo->qtdeDiasTratamento = qtdeDiasTratamento;
     novo->listaQtdeCaloriasIngeridasPorDia = listaQtdeCaloriasIngeridasPorDia;
     novo->alta = false;
+    novo->pesoEmGramasAoSair = -1;
 
     return novo;
 }
@@ -36,10 +38,12 @@ void hospedeImprimir(Hospede *hospede)
         "RECEBEU ALTA?: %s"
         "\n* Nome: %s"
         "\n* Peso ao entrar (gramas): %d"
+        "\n* Peso ao sair (gramas): %d"
         "\n* Qtde dias tratamento: %d"
         "\n* Qtde de calorias ingerida por dia de tratamento:\n",
         hospede->alta ? "Sim" : "Nao",
-        hospede->nome, hospede->pesoEmGramasAoEntrar, hospede->qtdeDiasTratamento
+        hospede->nome, hospede->pesoEmGramasAoEntrar, 
+        hospede->pesoEmGramasAoSair, hospede->qtdeDiasTratamento
     );
     if (hospede->listaQtdeCaloriasIngeridasPorDia != NULL)
     {
@@ -94,7 +98,7 @@ void noImprimir(No *no)
         No *atual = no;
         while (atual != NULL)
         {
-            printf("ID: %d\n", atual->id);
+            printf("\nID: %d\n", atual->id);
             hospedeImprimir(atual->hospede);
             atual = atual->proximo;
         }
