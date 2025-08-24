@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #include<string.h>
 
 typedef struct 
@@ -8,6 +9,7 @@ typedef struct
     int pesoEmGramasAoEntrar;
     int qtdeDiasTratamento;
     int *listaQtdeCaloriasIngeridasPorDia;
+    bool alta;
 } Hospede;
 
 Hospede *hospedeInicializar(
@@ -23,6 +25,7 @@ Hospede *hospedeInicializar(
     novo->pesoEmGramasAoEntrar = pesoEmGramasAoEntrar;
     novo->qtdeDiasTratamento = qtdeDiasTratamento;
     novo->listaQtdeCaloriasIngeridasPorDia = listaQtdeCaloriasIngeridasPorDia;
+    novo->alta = false;
 
     return novo;
 }
@@ -30,17 +33,22 @@ Hospede *hospedeInicializar(
 void hospedeImprimir(Hospede *hospede)
 {
     printf(
-        "Nome: %s"
-        "\nPeso ao entrar (gramas): %d"
-        "\nQtde dias tratamento: %d"
-        "\nQtde de calorias ingerida por dia de tratamento:\n",
+        "RECEBEU ALTA?: %s"
+        "\n* Nome: %s"
+        "\n* Peso ao entrar (gramas): %d"
+        "\n* Qtde dias tratamento: %d"
+        "\n* Qtde de calorias ingerida por dia de tratamento:\n",
+        hospede->alta ? "Sim" : "Nao",
         hospede->nome, hospede->pesoEmGramasAoEntrar, hospede->qtdeDiasTratamento
     );
-    int atual;
-    for (int i = 0; i < hospede->qtdeDiasTratamento; i++)
+    if (hospede->listaQtdeCaloriasIngeridasPorDia != NULL)
     {
-        atual = hospede->listaQtdeCaloriasIngeridasPorDia[i];
-        printf("- dia %d: %d\n", i+1, atual);
+        int atual;
+        for (int i = 0; i < hospede->qtdeDiasTratamento; i++)
+        {
+            atual = hospede->listaQtdeCaloriasIngeridasPorDia[i];
+            printf("- dia %d: %d\n", i+1, atual);
+        }
     }
 }
 
@@ -81,12 +89,19 @@ No *noAdicionarAoFinal(No *no, Hospede *hospede)
 
 void noImprimir(No *no)
 {
-    No *atual = no;
-    while (atual != NULL)
+    if (no != NULL)
     {
-        printf("ID: %d\n", atual->id);
-        hospedeImprimir(atual->hospede);
-        atual = atual->proximo;
+        No *atual = no;
+        while (atual != NULL)
+        {
+            printf("ID: %d\n", atual->id);
+            hospedeImprimir(atual->hospede);
+            atual = atual->proximo;
+        }
+    }
+    else
+    {
+        printf("Nenhum valor para imprimir.");
     }
 }
 
