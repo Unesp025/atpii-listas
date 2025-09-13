@@ -1,0 +1,26 @@
+LISTE LIÉE
+
+Structure qui contient un élement et un ponteur
+jusqu'À le prochain objet.
+
+Avec des vecteurs, les élements sont storés
+dedans une séquence, d'une manière que acun autre
+porrais être au milieu. 
+
+rien != corbeille. 
+NULL est différent des valeurs randomiques laissés 
+dans une position de mémoire. 
+
+Nous construsions une liste en ajoutant des nouveaux
+nodes au son fin.
+
+## Opérations
+La variable que répresent la liste store le premier
+node. Le restant des valeurs sont seulement obtenus
+
+
+---
+
+p recebe um endereço de memória no momento da declaração. 
+* passar por valor: Uma cópia é passada. 
+* passar por referência: É passado um ponteiro da variável. 
