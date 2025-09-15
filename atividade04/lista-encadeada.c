@@ -52,7 +52,7 @@ void libera_lista(struct regFunc *head)
 	}
 }
 
-int main()
+void exemplo_cadastro()
 {
 	struct regFunc *listaRFunc = NULL;
 	int nMat01 = 1;
@@ -71,6 +71,4 @@ int main()
 
 	imprime_lista(listaRFunc);
 	libera_lista(listaRFunc);
-
-	return 0;
 }
